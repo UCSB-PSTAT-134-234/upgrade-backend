@@ -18,7 +18,7 @@
 
 		"vscode": {
 			"settings": {
-				"python.defaultInterpreterPath": "/opt/conda/bin/python",
+				"python.defaultInterpreterPath": "/opt/conda/bin/python"
 			},
 			"extensions": [
 				"ms-python.python",							// for Python

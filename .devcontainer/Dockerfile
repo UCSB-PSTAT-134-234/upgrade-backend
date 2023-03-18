@@ -26,10 +26,3 @@ USER ${NB_USER}
 ### Prints Jupyter server token when terminal is opened
 RUN echo "echo \"Jupyter server token: \$(jupyter server list 2>&1 | grep -oP '(?<=token=)[[:alnum:]]*')\"" > ${HOME}/.get-jupyter-url.sh && \
     echo "sh \${HOME}/.get-jupyter-url.sh" >> ${HOME}/.bashrc
-
-### RStudio
-RUN pip install --no-cache-dir \
-        jupyter-server-proxy==3.2.1 \
-        jupyter-rsession-proxy==2.0.1 && \
-    jupyter labextension install @jupyterlab/server-proxy@3.2.1 && \
-    jupyter lab build
