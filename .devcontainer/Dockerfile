@@ -27,4 +27,4 @@ USER ${NB_USER}
 RUN echo "echo \"Jupyter server token: \$(jupyter server list 2>&1 | grep -oP '(?<=token=)[[:alnum:]]*')\"" > ${HOME}/.get-jupyter-url.sh && \
     echo "sh \${HOME}/.get-jupyter-url.sh" >> ${HOME}/.bashrc
 
-RUN pip install otter-grader
+RUN pip install otter-grader==4.3.1
