@@ -41,7 +41,7 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v4
         with:
-          context: ./.devcontainer/Dockerfile
+          context: ./.devcontainer/
           platforms: linux/amd64
           push: true
           tags: ${{ env.full_tag }}
