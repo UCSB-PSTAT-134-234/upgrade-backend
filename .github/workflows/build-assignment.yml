@@ -50,7 +50,7 @@ jobs:
 
           RUN mkdir -p /autograder/source
 
-          COPY ${TYPE}s/${TYPE}${NUM}/autograder/autograder.zip /tmp/autograder.zip
+          COPY ${TYPE}s/${TYPE}${NUM}/autograder/${TYPE}${NUM}-autograder_*.zip /tmp/autograder.zip
 
           RUN unzip -d /autograder/source /tmp/autograder.zip
 
