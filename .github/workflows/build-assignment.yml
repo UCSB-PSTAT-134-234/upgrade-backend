@@ -42,13 +42,15 @@ jobs:
           FROM gradescope/auto-builds:ubuntu-20.04
 
           RUN apt-get update && \
-              apt-get install -y curl unzip dos2unix && \
+              apt-get install -y \
+                curl unzip dos2unix \
+                texlive-xetex texlive-fonts-recommended texlive-plain-generic && \
               apt-get clean && \
               rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
               
           COPY --from=ucsb/pstat-134-234-spring-2023:9c49307 /opt/conda /opt/conda
 
-          RUN mkdir -p /autograder/source
+          RUN mkdir -p /autograder/source /autograder/results
 
           COPY ${TYPE}s/${TYPE}${NUM}/autograder/${TYPE}${NUM}-autograder_*.zip /tmp/autograder.zip
 
@@ -56,13 +58,11 @@ jobs:
 
           RUN cp /autograder/source/run_autograder /autograder/run_autograder
 
-          RUN dos2unix /autograder/run_autograder /autograder/source/setup.sh
+          # RUN dos2unix /autograder/run_autograder /autograder/source/setup.sh
 
           RUN chmod +x /autograder/run_autograder
 
-          ENV BASE_IMAGE ucbdsinfra/otter-grader
-
-          RUN mkdir /autograder/results
+          # ENV BASE_IMAGE ucbdsinfra/otter-grader
 
           RUN /opt/conda/bin/conda init --all
           EOF
