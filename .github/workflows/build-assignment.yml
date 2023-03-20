@@ -62,7 +62,7 @@ jobs:
 
           RUN chmod +x /autograder/run_autograder
 
-          # ENV BASE_IMAGE ucbdsinfra/otter-grader
+          ENV BASE_IMAGE ucbdsinfra/otter-grader
 
           RUN /opt/conda/bin/conda init --all
           EOF
