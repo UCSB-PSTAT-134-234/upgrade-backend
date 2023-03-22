@@ -49,8 +49,8 @@ jobs:
               apt-get clean && \
               rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
               
-          # COPY ${TYPE}s/${TYPE}${NUM}/autograder/${TYPE}${NUM}-autograder_*.zip /tmp/autograder.zip
-          COPY assignments/assignment1/autograder/assignment1-autograder_*.zip /tmp/autograder.zip
+          COPY ${TYPE}s/${TYPE}${NUM}/autograder/${TYPE}${NUM}-autograder_*.zip /tmp/autograder.zip
+          # COPY assignments/assignment1/autograder/assignment1-autograder_*.zip /tmp/autograder.zip
 
           # unzip autograder files
           RUN mkdir -p /autograder/source /autograder/results && \
