@@ -23,7 +23,7 @@ jobs:
           echo "NUM=$( echo ${GITHUB_REF} | cut -d/ -f4 )" >> $GITHUB_ENV
       - 
         run: |
-          echo "TAG=Spring2023-${TYPE::2}${NUM}-${GITHUB_SHA::7}" >> $GITHUB_ENV
+          echo "TAG=spring2023-${TYPE::2}${NUM}-${GITHUB_SHA::7}" >> $GITHUB_ENV
       - 
         name: Checkout
         uses: actions/checkout@v3
