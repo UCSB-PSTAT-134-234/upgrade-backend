@@ -23,7 +23,7 @@ jobs:
           echo "NUM=$( echo ${GITHUB_REF} | cut -d/ -f4 )" >> $GITHUB_ENV
       - 
         run: |
-          echo "TAG=Spring2023-${TYPE::2}${NUM}-${GITHUB_SHA::7}" >> $GITHUB_ENV
+          echo "TAG=spring2023-${TYPE::2}${NUM}-${GITHUB_SHA::7}" >> $GITHUB_ENV
       - 
         name: Checkout
         uses: actions/checkout@v3
@@ -41,30 +41,34 @@ jobs:
           cat << EOF > build/Dockerfile
           FROM gradescope/auto-builds:ubuntu-20.04
 
+          COPY --from=ucsb/pstat-134-234-spring-2023:9c49307 /opt/conda /opt/conda
+
           RUN apt-get update && \
               apt-get install -y \
-                curl unzip dos2unix \
                 texlive-xetex texlive-fonts-recommended texlive-plain-generic && \
               apt-get clean && \
               rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
               
-          COPY --from=ucsb/pstat-134-234-spring-2023:9c49307 /opt/conda /opt/conda
-
-          RUN mkdir -p /autograder/source /autograder/results
-
           COPY ${TYPE}s/${TYPE}${NUM}/autograder/${TYPE}${NUM}-autograder_*.zip /tmp/autograder.zip
+          # COPY assignments/assignment1/autograder/assignment1-autograder_*.zip /tmp/autograder.zip
 
-          RUN unzip -d /autograder/source /tmp/autograder.zip
+          # unzip autograder files
+          RUN mkdir -p /autograder/source /autograder/results && \
+              unzip -d /autograder/source /tmp/autograder.zip && \
+              dos2unix /autograder/source/run_autograder /autograder/source/setup.sh && \
+              cp /autograder/source/run_autograder /autograder/run_autograder && \
+              chmod +x /autograder/run_autograder
 
-          RUN cp /autograder/source/run_autograder /autograder/run_autograder
+          # setup conda environment
+          # see `run_autograder` for more details
+          RUN /opt/conda/bin/conda create -y --name otter-env && \
+              /opt/conda/bin/conda init --all 
+              # && \
+              # echo "" > /autograder/source/setup.sh
 
-          # RUN dos2unix /autograder/run_autograder /autograder/source/setup.sh
-
-          RUN chmod +x /autograder/run_autograder
-
-          # ENV BASE_IMAGE ucbdsinfra/otter-grader
-
-          RUN /opt/conda/bin/conda init --all
+          # adding conda directory to PATH
+          # see `run_autograder` for more details
+          ENV BASE_IMAGE ucbdsinfra/otter-grader
           EOF
       -
         name: Login to Docker Hub

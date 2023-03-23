@@ -1,1 +1,6 @@
 .ipynb_checkpoints/
+.OTTER_LOG
+# ignore submission zip files
+*_202[0-9]_*.zip
+# keep autograder zip files
+!*-autograder_*.zip
